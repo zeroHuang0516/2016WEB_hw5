@@ -13,72 +13,119 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var _React = React,
     Component = _React.Component;
 
-var TodoApp = function (_React$Component) {
-	_inherits(TodoApp, _React$Component);
+var TodoApp = function (_Component) {
+	_inherits(TodoApp, _Component);
 
-	function TodoApp(props) {
+	function TodoApp(props, context) {
 		_classCallCheck(this, TodoApp);
 
-		var _this = _possibleConstructorReturn(this, (TodoApp.__proto__ || Object.getPrototypeOf(TodoApp)).call(this, props));
+		var _this = _possibleConstructorReturn(this, (TodoApp.__proto__ || Object.getPrototypeOf(TodoApp)).call(this, props, context));
 
 		_this.state = {
-			count: 0,
 			todos: [{
 				value: '',
 				completed: false
 			}],
 			text: ''
 		};
-		_this.handleEnter = _this.handleEnter.bind(_this);
 		_this.updateValue = _this.updateValue.bind(_this);
+		_this.handleEnter = _this.handleEnter.bind(_this);
+		_this.Destroy = _this.Destroy.bind(_this);
+		_this.handleClick = _this.handleClick.bind(_this);
+		_this.DisplayLeft = _this.DisplayLeft.bind(_this);
+		_this.DisplaytodoItem = _this.DisplaytodoItem.bind(_this);
 		return _this;
 	}
 
 	_createClass(TodoApp, [{
+		key: 'updateValue',
+		value: function updateValue(e) {
+			this.setState({
+				text: e.target.value
+			});
+		}
+	}, {
 		key: 'handleEnter',
 		value: function handleEnter(ele) {
-			if (ele.keyCode === 13 && ele.target.value !== '') {
+			if (ele.keyCode === 13 && this.state.text.trim() !== '') {
 				this.setState({
-					count: this.state.count + 1,
-					todos: this.state.todos.concsat([{
-						value: this.state.text.trim(),
-						completed: false
-					}])
+					todos: [{ value: this.state.text,
+						completed: false }].concat(_toConsumableArray(todos)),
+					text: ''
 				});
-				this.updateValue('');
 				console.log("enter on");
-			}
+			};
+		}
+	}, {
+		key: 'Destroy',
+		value: function Destroy(idx) {
+			this.setState({
+				todos: this.state.todos.splice(idx, 1)
+			});
 		}
 	}, {
 		key: 'handleClick',
 		value: function handleClick(idx) {
-			var _this2 = this;
-
-			return function () {
-				var tmptodos = [].concat(_toConsumableArray(_this2.state.todos));
-				tmptodos[idx].completed = !tmptodos[idx].completed;
-				_this2.setState({
-					todos: tmptodos
-				});
-			};
+			var tmptodos = [].concat(_toConsumableArray(this.state.todos));
+			tmptodos[idx].completed = !tmptodos[idx].completed;
+			this.setState({ todos: tmptodos });
 		}
 	}, {
-		key: 'updateValue',
-		value: function updateValue(e) {
-			this.setState({
-				value: e.target.value
+		key: 'DisplayLeft',
+		value: function DisplayLeft() {
+			var count;
+			for (var i = 0; i < this.props.todos.length; i += 1) {
+				if (this.props.todos[i].completed) {
+					count += 1;
+				}
+			}
+			if (count !== 1) {
+				return React.createElement(
+					'span',
+					null,
+					count,
+					' items left'
+				);
+			} else if (count === 1) {
+				return React.createElement(
+					'span',
+					null,
+					'1 item left'
+				);
+			} else {
+				return React.createElement(
+					'span',
+					null,
+					'NO items'
+				);
+			}
+		}
+	}, {
+		key: 'DisplaytodoItem',
+		value: function DisplaytodoItem(lists, idx) {
+			var _this2 = this;
+
+			return React.createElement(TodoItem, {
+				onCheckClick: function onCheckClick() {
+					return _this2.handleClick(idx);
+				},
+				onCancel: function onCancel() {
+					return _this2.Destroy(idx);
+				},
+				content: lists["value"],
+				completed: lists["completed"],
+				key: idx
 			});
 		}
 	}, {
 		key: 'render',
 		value: function render() {
-			for (var i = 0; i < this.state.todos.length; i += 1) {
-				if (!this.state.todos[i].completed) {
-					this.setState({
-						count: this.state.count += 1
-					});
-				}
-			}
+			var _this3 = this;
+
+			var _state = this.state,
+			    todos = _state.todos,
+			    text = _state.text;
+
 			return React.createElement(
 				'section',
 				{ className: 'todoapp' },
@@ -90,39 +137,71 @@ var TodoApp = function (_React$Component) {
 						null,
 						'todos'
 					),
-					React.createElement('input', { 'class': 'new-todo', placeholder: 'What needs to be done?', autofocus: true,
-						onKeyPress: this.handleEnter,
+					React.createElement('input', { className: 'new-todo',
+						value: text,
 						onChange: this.updateValue,
-						value: this.state.text })
+						onKeyDown: this.handleEnter,
+						placeholder: 'What needs to be done?',
+						autofocus: true })
 				),
 				React.createElement(
-					'section',
-					{ 'class': 'main' },
-					React.createElement('input', { className: 'toggle-all', type: 'checkbox' }),
-					React.createElement(
-						'label',
-						{ htmlFor: 'toggle-all' },
-						'Mark all as complete'
-					),
-					React.createElement(
-						'ul',
-						{ 'class': 'todo-list' },
-						this.state.todos.map(function (todo, index) {
-							return React.createElement(TodoItem, { value: todo.value,
-								completed: todo.completed });
-						})
-					)
+					'ul',
+					{ 'class': 'todo-list' },
+					todos.map(function (list, idx) {
+						return _this3.DisplaytodoItem(list, idx);
+					})
 				),
-				React.createElement(CountDisplay, { count: this.state.count })
+				React.createElement(CountDisplay, null)
 			);
 		}
 	}]);
 
 	return TodoApp;
+}(Component);
+
+var TodoItem = function (_React$Component) {
+	_inherits(TodoItem, _React$Component);
+
+	function TodoItem() {
+		_classCallCheck(this, TodoItem);
+
+		return _possibleConstructorReturn(this, (TodoItem.__proto__ || Object.getPrototypeOf(TodoItem)).apply(this, arguments));
+	}
+
+	_createClass(TodoItem, [{
+		key: 'render',
+		value: function render() {
+			var _this5 = this;
+
+			var completed = this.props.completed;
+
+			return React.createElement(
+				'li',
+				{ className: completed ? "done" : "" },
+				React.createElement('input', { className: 'toggle',
+					type: 'checkbox',
+					checked: completed,
+					onChange: function onChange(e) {
+						return _this5.props.handleClick();
+					} }),
+				React.createElement(
+					'label',
+					null,
+					this.props.content
+				),
+				React.createElement('button', { className: 'delete',
+					onChange: function onChange(e) {
+						return _this5.props.Destroy();
+					} })
+			);
+		}
+	}]);
+
+	return TodoItem;
 }(React.Component);
 
-var CountDisplay = function (_Component) {
-	_inherits(CountDisplay, _Component);
+var CountDisplay = function (_React$Component2) {
+	_inherits(CountDisplay, _React$Component2);
 
 	function CountDisplay() {
 		_classCallCheck(this, CountDisplay);
@@ -135,50 +214,13 @@ var CountDisplay = function (_Component) {
 		value: function render() {
 			return React.createElement(
 				'footer',
-				{ className: 'footer' },
-				React.createElement(
-					'span',
-					{ className: 'todo-count' },
-					this.props.count,
-					' todos left.'
-				),
-				React.createElement(
-					'button',
-					{ className: 'clear-completed' },
-					'Clear completed'
-				)
+				{ className: 'todo-count' },
+				this.props.DisplayLeft()
 			);
 		}
 	}]);
 
 	return CountDisplay;
-}(Component);
-
-var TodoItem = function (_Component2) {
-	_inherits(TodoItem, _Component2);
-
-	function TodoItem() {
-		_classCallCheck(this, TodoItem);
-
-		return _possibleConstructorReturn(this, (TodoItem.__proto__ || Object.getPrototypeOf(TodoItem)).apply(this, arguments));
-	}
-
-	_createClass(TodoItem, [{
-		key: 'render',
-		value: function render() {
-			return React.createElement(
-				'div',
-				{ className: 'view' },
-				React.createElement(
-					'label',
-					null,
-					this.props.value
-				)
-			);
-		}
-	}]);
-
-	return TodoItem;
-}(Component);
+}(React.Component);
 
 ReactDOM.render(React.createElement(TodoApp, null), document.getElementById('root'));
