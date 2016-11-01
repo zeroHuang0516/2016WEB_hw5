@@ -73,23 +73,18 @@ class TodoApp extends React.Component {
 
 }
 
-class CountDisplay extends Component {
-  render() {
-    return (
-      <span className="todo-count">{this.props.count}</span>
-    );
-  }
-}
-class FOOTER extends Component {
-  render() {
-    return (
+class CountDisplay extends Component{
+	render(){
+		return(
       <footer className="footer">
-        <CountDisplay count={this.props.count} />
+        <span className="todo-count">{this.props.count} todos left.</span>
         <button className="clear-completed">Clear completed</button>
       </footer>
-  );
-  }
+    );
+	}
 }
+
+
 
 
 

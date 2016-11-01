@@ -119,32 +119,14 @@ var CountDisplay = function (_Component) {
 		key: 'render',
 		value: function render() {
 			return React.createElement(
-				'span',
-				{ className: 'todo-count' },
-				this.props.count
-			);
-		}
-	}]);
-
-	return CountDisplay;
-}(Component);
-
-var FOOTER = function (_Component2) {
-	_inherits(FOOTER, _Component2);
-
-	function FOOTER() {
-		_classCallCheck(this, FOOTER);
-
-		return _possibleConstructorReturn(this, (FOOTER.__proto__ || Object.getPrototypeOf(FOOTER)).apply(this, arguments));
-	}
-
-	_createClass(FOOTER, [{
-		key: 'render',
-		value: function render() {
-			return React.createElement(
 				'footer',
 				{ className: 'footer' },
-				React.createElement(CountDisplay, { count: this.props.count }),
+				React.createElement(
+					'span',
+					{ className: 'todo-count' },
+					this.props.count,
+					' todos left.'
+				),
 				React.createElement(
 					'button',
 					{ className: 'clear-completed' },
@@ -154,11 +136,11 @@ var FOOTER = function (_Component2) {
 		}
 	}]);
 
-	return FOOTER;
+	return CountDisplay;
 }(Component);
 
-var TodoItem = function (_Component3) {
-	_inherits(TodoItem, _Component3);
+var TodoItem = function (_Component2) {
+	_inherits(TodoItem, _Component2);
 
 	function TodoItem() {
 		_classCallCheck(this, TodoItem);
