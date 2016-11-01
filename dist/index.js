@@ -71,36 +71,6 @@ var TodoApp = function (_Component) {
 			this.setState({ todos: tmptodos });
 		}
 	}, {
-		key: 'DisplayLeft',
-		value: function DisplayLeft() {
-			var count;
-			for (var i = 0; i < this.props.todos.length; i += 1) {
-				if (this.props.todos[i].completed) {
-					count += 1;
-				}
-			}
-			if (count !== 1) {
-				return React.createElement(
-					'span',
-					null,
-					count,
-					' items left'
-				);
-			} else if (count === 1) {
-				return React.createElement(
-					'span',
-					null,
-					'1 item left'
-				);
-			} else {
-				return React.createElement(
-					'span',
-					null,
-					'NO items'
-				);
-			}
-		}
-	}, {
 		key: 'DisplaytodoItem',
 		value: function DisplaytodoItem(lists, idx) {
 			var _this2 = this;
@@ -210,12 +180,42 @@ var CountDisplay = function (_React$Component2) {
 	}
 
 	_createClass(CountDisplay, [{
+		key: 'DisplayLeft',
+		value: function DisplayLeft() {
+			var count;
+			for (var i = 0; i < this.props.todos.length; i += 1) {
+				if (this.props.todos[i].completed) {
+					count += 1;
+				}
+			}
+			if (count !== 1) {
+				return React.createElement(
+					'span',
+					null,
+					count,
+					' items left'
+				);
+			} else if (count === 1) {
+				return React.createElement(
+					'span',
+					null,
+					'1 item left'
+				);
+			} else {
+				return React.createElement(
+					'span',
+					null,
+					'NO items'
+				);
+			}
+		}
+	}, {
 		key: 'render',
 		value: function render() {
 			return React.createElement(
 				'footer',
 				{ className: 'todo-count' },
-				this.props.DisplayLeft()
+				this.DisplayLeft()
 			);
 		}
 	}]);
