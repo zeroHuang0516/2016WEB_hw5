@@ -31,6 +31,16 @@ class TodoApp extends React.Component {
 		}
 	}
 
+	handleClick(idx) {
+		return () =>{
+			var tmptodos = [...this.state.todos];
+			tmptodos[idx].completed = !tmptodos[idx].completed;
+			this.setState({
+				todos: tmptodos
+			});
+		};
+	}
+
 	updateValue(e){
 		this.setState({
 			value: e.target.value,
@@ -92,7 +102,7 @@ class TodoItem extends Component {
 	render(){
 		return (
 			<div className="view">
-			<label>{this.props.Value }</label>
+			<label>{this.props.value }</label>
 			</div>
 		);
 	}
