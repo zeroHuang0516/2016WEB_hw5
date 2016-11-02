@@ -46,7 +46,7 @@
 
 	__webpack_require__(1);
 	__webpack_require__(1);
-	module.exports = __webpack_require__(179);
+	(function webpackMissingModule() { throw new Error("Cannot find module \"./dist/bundle.js\""); }());
 
 
 /***/ },
@@ -22051,12 +22051,6 @@
 			URL.revokeObjectURL(oldSrc);
 	}
 
-
-/***/ },
-/* 179 */
-/***/ function(module, exports) {
-
-	"use strict";
 
 /***/ }
 /******/ ]);
